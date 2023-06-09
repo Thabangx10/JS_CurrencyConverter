@@ -1,5 +1,6 @@
 @import url(https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;800;900&display=swap);
 
+/* Our root default colour  */
 :root{
     --main_back: #191b1b;
     --header_back: rgb(45, 65, 82);
@@ -9,6 +10,7 @@
     --footer_back: #999;
 }
 
+/* Allow us to change to the specified colour */
 .light_mode{
     --main_back: #999;
     --header_back: rgb(206, 202, 202);
@@ -18,6 +20,8 @@
     --footer_back: #2e2e2e;
     
 }
+
+
 *{
     margin: 0;
     padding: 0;
@@ -25,14 +29,15 @@
 }
 
 
-
 body {
   font-family: 'Poppins', sans-serif;
   background: var(--main_back) !important;
 }
+
 .container{
     min-height: 120vh;
 }
+
 .header{
     height: 10vh;
     display: flex;

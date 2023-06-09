@@ -4,15 +4,18 @@ const result = document.querySelector('.result');
 const result_par = document.querySelector('.result_par');
 let amount = document.querySelector('#amount')
 
+// Colour change
 toggler.onclick = () => {
     document.body.classList.toggle('light_mode')
 }
 
-const btnFunc = () => {
+// Calculating our conversion
+let btnFunc = () => {
     let base = document.querySelector('#select_from').value
     let selectTo = document.querySelector('#select_to').value
     let realAmount = amount.value
 
+    // Got the API from www.exchange
     fetch(`https://api.exchangerate.host/latest?/source=ecb&base=${base}`)
         .then(res => res.json())
         .then(data => {
@@ -26,13 +29,13 @@ const btnFunc = () => {
                 result_par.innerText = 'Please Enter Amount'
             }
             else {
-                result.innerHTML = `<button class="btn">Convert</button>
+                result.innerHTML = `<button class="btn">Conversion</button>
                 <h6 class="result_par">${realAmount} ${base} is equal to <span class="result_span">${convert().toLocaleString()} ${selectTo}</span></h6> `
             }
 
         })
 }
-const func = (e) => {
+let func = (e) => {
     if (e.keyCode == 13) {
         btnFunc()
     }
@@ -46,7 +49,7 @@ amount.addEventListener("keyup", () => {
     }
 });
 
-const changer = (e) => {
+let changer = (e) => {
     let realAmount = amount.value
     realAmount = e.target.value
     btnFunc()
