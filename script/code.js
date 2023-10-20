@@ -2,63 +2,60 @@ const toggler = document.querySelector('#toggler');
 const btn = document.querySelector('.btn');
 const result = document.querySelector('.result');
 const result_par = document.querySelector('.result_par');
-let amount = document.querySelector('#amount')
+let amount = document.querySelector('#amount');
 
-// Colour change
+// Currency exchange rates API
+const apiKey = 'a5f2a613a9a0579307800365';
+
+// Color change
 toggler.onclick = () => {
-    document.body.classList.toggle('light_mode')
-}
+    document.body.classList.toggle('light_mode');
+};
 
-// Calculating our conversion
+// Fetch currency exchange rates and perform conversion
 let btnFunc = () => {
-    let base = document.querySelector('#select_from').value
-    let selectTo = document.querySelector('#select_to').value
-    let realAmount = amount.value
+    let base = document.querySelector('#select_from').value;
+    let selectTo = document.querySelector('#select_to').value;
+    let realAmount = amount.value;
 
-    // Got the API from www.exchange
-    fetch(`https://api.exchangerate.host/latest?/source=ecb&base=${base}`)
-        .then(res => res.json())
-        .then(data => {
-            console.log(data);
-            const rate = data.rates[selectTo]
-            const convert = () => {
-                return realAmount * rate
-            }
-            if (realAmount === '') {
-                console.log('Please enter amount');
-                result_par.innerText = 'Please Enter Amount'
-            }
-            else {
-                result.innerHTML = `<button class="btn">Conversion</button>
-                <h6 class="result_par">${realAmount} ${base} is equal to <span class="result_span">${convert().toLocaleString()} ${selectTo}</span></h6> `
-            }
+    if (realAmount === '') {
+        console.log('Please enter amount');
+        result_par.innerText = 'Please Enter Amount';
+    } else {
+        fetch(`https://v6.exchangerate-api.com/v6/${apiKey}/latest/${base}`)
+            .then((res) => res.json())
+            .then((data) => {
+                console.log(data);
+                const rate = data.conversion_rates[selectTo];
+                const convert = realAmount * rate;
+                result_par.innerHTML = `${realAmount} ${base} is equal to ${convert.toFixed(2)} ${selectTo}`;
+            });
+    }
+};
 
-        })
-}
 let func = (e) => {
     if (e.keyCode == 13) {
-        btnFunc()
+        btnFunc();
     }
-}
-btn.addEventListener('click', btnFunc);
-amount.addEventListener('keypress', func)
+};
 
-amount.addEventListener("keyup", () => {
+btn.addEventListener('click', btnFunc);
+amount.addEventListener('keypress', func);
+
+amount.addEventListener('keyup', () => {
     if (!amount.value) {
-        result.innerHTML = `<button class="btn">Convert</button>`
+        result_par.innerHTML = '';
     }
 });
 
 let changer = (e) => {
-    let realAmount = amount.value
-    realAmount = e.target.value
-    btnFunc()
-}
+    btnFunc();
+};
 
-amount.addEventListener('input', changer)
+amount.addEventListener('input', changer);
 
 amount.oninput = function () {
     if (this.value.length > 9) {
-        this.value = this.value.slice(0,9); 
+        this.value = this.value.slice(0, 9);
     }
-}
+};
